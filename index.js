@@ -18,3 +18,5 @@ app.get('/products', (req, res) => {
 app.post('/products', (req, res) => {
   res.json({ message: 'Produk ditambahkan' });
 });
+
+// ajnundiud3nud
