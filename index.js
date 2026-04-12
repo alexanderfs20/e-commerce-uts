@@ -7,16 +7,14 @@ app.get('/', (req, res) => {
   res.send('API jalan');
 });
 
-app.listen(3000, () => {
-  console.log('http://localhost:3000');
+app.listen(3001, () => {
+  console.log('http://localhost:3001');
 });
 
-app.get('/products', (req, res) => {
-  res.json([{ id: 1, name: 'Laptop' }]);
+app.get('/reviews', (req, res) => {
+  res.json([{ id: 1, productId: 1, user: 'User1', comment: 'Barangnya cakep banget!' }]);
 });
 
-app.post('/products', (req, res) => {
-  res.json({ message: 'Produk ditambahkan' });
+app.post('/reviews', (req, res) => {
+  res.json({ message: 'Review berhasil ditambahkan.' });
 });
-
-// ajnundiud3nud
