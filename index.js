@@ -19,6 +19,12 @@ app.get('/products', async (req, res) => {
   res.json({ data: products });
 });
 
+// BUAT NAMBAHIN DATA
+app.post('/products', async (req, res) => {
+  const product = await Product.create(req.body);
+  res.json({ data: product });
+});
+
 // SEARCH (HARUS DI ATAS)
 app.get('/products/search', async (req, res) => {
   const { name } = req.query;
