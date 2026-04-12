@@ -25,7 +25,7 @@ app.post('/products', async (req, res) => {
   res.json({ data: product });
 });
 
-// SEARCH (HARUS DI ATAS)
+// SEARCH
 app.get('/products/search', async (req, res) => {
   const { name } = req.query;
 
