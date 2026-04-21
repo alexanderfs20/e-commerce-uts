@@ -1,20 +1,36 @@
 const express = require('express');
-const app = express();
+const cors = require('cors');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
+const app = express();
+const reviewRoutes = require("./review/routes/reviewRoutes");
+
+app.use(cors());
 app.use(express.json());
+app.use("/", reviewRoutes);
 
 app.get('/', (req, res) => {
   res.send('API jalan');
 });
 
-app.listen(3001, () => {
-  console.log('http://localhost:3001');
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ message: "Terjadi error" });
 });
 
-app.get('/reviews', (req, res) => {
-  res.json([{ id: 1, productId: 1, user: 'User1', comment: 'Barangnya cakep banget!' }]);
-});
+const startServer = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('MongoDB connected');
 
-app.post('/reviews', (req, res) => {
-  res.json({ message: 'Review berhasil ditambahkan.' });
-});
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      console.log(`http://localhost:${port}`);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+startServer();
