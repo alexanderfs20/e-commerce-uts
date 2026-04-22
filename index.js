@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
-const reviewRoutes = require("./review/routes/reviewRoutes");
+const reviewRoutes = require("./review/route/reviewRoutes");
 
 app.use(cors());
 app.use(express.json());
