@@ -13,6 +13,14 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+<<<<<<< HEAD
+require('dotenv').config();
+const mongoose = require('mongoose');
+const cors = require('cors');
+
+// middleware
+app.use(cors());
+=======
 const app = express();
 const reviewRoutes = require("./review/route/reviewRoutes");
 
@@ -51,12 +59,28 @@ require('dotenv').config();
 const productRoutes = require('./Product/routes/product.route');
 
 const app = express();
+>>>>>>> 39054ca5564430c741df431d56acb5c24379e776
 app.use(express.json());
 
+// koneksi MongoDB
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err));
+
+// TEST API
 app.get('/', (req, res) => {
   res.send('API jalan');
 });
 
+<<<<<<< HEAD
+
+// =======================
+// SERVER
+// =======================
+app.listen(5000, () => {
+  console.log('http://localhost:5000');
+});
+=======
 app.use('/products', productRoutes);
 
 const start = async () => {
@@ -94,3 +118,4 @@ app.get('/', (req, res) => {
 app.listen(3000, () => {
   console.log('http://localhost:3000')
 })
+>>>>>>> 39054ca5564430c741df431d56acb5c24379e776
