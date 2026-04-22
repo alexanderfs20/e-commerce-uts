@@ -4,8 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js"
+=======
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+>>>>>>> 39054ca5564430c741df431d56acb5c24379e776
   },
   "keywords": [],
   "author": "",
@@ -13,9 +18,37 @@
   "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.6",
+<<<<<<< HEAD
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mongoose": "^9.5.0"
+=======
+    "dotenv": "^17.4.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
+{
+  "name": "e-commerce-uts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.4.1"
+>>>>>>> 39054ca5564430c741df431d56acb5c24379e776
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

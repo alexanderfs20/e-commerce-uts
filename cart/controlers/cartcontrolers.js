@@ -1,54 +1,81 @@
-const Cart = require("../models/Cart");
-const Product = require("../models/Product");
+import Cart from "../models/Cart.js";
+import Product from "../../models/Product.js"; // sesuaikan path
 
-exports.addToCart = async (req, res) => {
+// ➕ ADD TO CART
+export const addToCart = async (req, res) => {
   try {
-    const { userId, productId, quantity } = req.body;
+    const { productId, quantity } = req.body;
+    const userId = req.user?.id || "dummyUser"; // sementara kalau belum ada auth
 
-    // validasi
-    if (!userId || !productId || !quantity) {
-      return res.status(400).json({ message: "Data tidak lengkap" });
-    }
-
-    const qty = parseInt(quantity);
-
-    // cek produk
+    // cek produk ada atau tidak
     const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).json({ message: "Produk tidak ditemukan" });
     }
 
-    let cart = await Cart.findOne({ userId });
+    let cart = await Cart.findOne({ user: userId });
 
     if (!cart) {
-      cart = new Cart({ userId, items: [] });
-    }
-
-    // cek item sudah ada
-    const existingItem = cart.items.find(
-      item => item.productId.toString() === productId
-    );
-
-    if (existingItem) {
-      existingItem.quantity += qty;
-    } else {
-      cart.items.push({
-        productId,
-        quantity: qty
+      cart = new Cart({
+        user: userId,
+        items: [{ product: productId, quantity }]
       });
+    } else {
+      const index = cart.items.findIndex(
+        item => item.product.toString() === productId
+      );
+
+      if (index > -1) {
+        cart.items[index].quantity += quantity;
+      } else {
+        cart.items.push({ product: productId, quantity });
+      }
     }
 
     await cart.save();
 
-    const result = await Cart.findOne({ userId })
-      .populate("items.productId");
-
     res.json({
-      message: "Berhasil tambah ke cart",
-      data: result
+      message: "Produk berhasil ditambahkan ke cart",
+      cart
     });
 
-  } catch (err) {
-    res.status(500).json({ message: "Error server" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// 📥 GET CART
+export const getCart = async (req, res) => {
+  try {
+    const userId = req.user?.id || "dummyUser";
+
+    const cart = await Cart.findOne({ user: userId })
+      .populate("items.product"); // 🔥 ini ambil data produk
+
+    res.json(cart);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ❌ REMOVE ITEM
+export const removeItem = async (req, res) => {
+  try {
+    const { productId } = req.body;
+    const userId = req.user?.id || "dummyUser";
+
+    const cart = await Cart.findOne({ user: userId });
+
+    cart.items = cart.items.filter(
+      item => item.product.toString() !== productId
+    );
+
+    await cart.save();
+
+    res.json(cart);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
